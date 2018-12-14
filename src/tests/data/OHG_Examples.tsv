@@ -1,0 +1,41 @@
+ID	DOCULECT	CONCEPT	VALUE	FORM	TOKENS	CORRECTED TOKENS	SegmentedTOKENS	MORPHEMES	COGIDS	WOLD-ID
+50	Old High German	the steam	dampf	dampf	d a m pf	d a m pf	d a m pf	STEAM	60	35667
+51	Old High German	the ash	asca	asca	a s k a	a s k a	a s k + a	ASH _a-suffix	61 12	35668
+52	Old High German	the embers	gluot	gluot	g l u o t	g l u o t	g l u o t	EMBER	62	35669
+53	Old High German	to burn(1)	brennen	brennen	b r e nː e n	b r e nː e n	b r e nː + e n	BURN2 _en-inf	63 64	35670
+54	Old High German	to burn(2)	brinnan	brinnan	b r i nː a n	b r i nː a n	b r i nː + a n	BURN _an-inf	65 55	35671
+55	Old High German	to light	zunten	zunten	ts/sː u n t e n	ts u n t e n	ts u n t + e n	KINDLE _en-inf	66 64	35672
+56	Old High German	to extinguish	lesken	lesken	l e s k e n	l e s k e n	l e s k + e n	EXTINGUISH _en-inf	67 64	35673
+57	Old High German	the match	zunt(a)ra	zuntara	ts/sː u n t a r a	ts u n t a r a	ts u n t + a r + a	KINDLE _ar-suffix _a-suffix	66 68 12	35674
+58	Old High German	the charcoal	kol(o)	kolo	k o l o	k o l o	k o l + o	COAL _o-suffix	69 21	35675
+59	Old High German	the person	mennisco	mennisco	m e nː i s k o	m e nː i s k o	m e nː + i s k + o	HUMAN2 _isk-suffix _o-suffix	70 71 21	35676
+60	Old High German	the man	man	man	m a n	m a n	m a n	HUMAN	72	35677
+61	Old High German	the woman	wîb	wîb	w iː b	w iː b	w iː b	WOMAN	73	35678
+62	Old High German	male(1)	man(a)lîh	manalîh	m a n a l iː x	m a n a l iː x	m a n + a + l iː x	HUMAN _a-suffix _li:h-suffix	72 12 74	35679
+63	Old High German	female(1)	wîblîh	wîblîh	w iː b l iː x	w iː b l iː x	w iː b + l iː x	WOMAN _li:h-suffix	73 74	35680
+64	Old High German	the boy	knab(b)o	knabbo	k n a bː o	k n a bː o	k n a bː + o	BOY _o-suffix	75 21	35681
+65	Old High German	the young man	jungeling	jungeling	j u n g e l i n g	j u n g e l i n g	j u n g + e + l i n g	YOUNG _e-suffix _ling-suffix	76 77 78	35682
+66	Old High German	the girl	thiorna	thiorna	θ i o r n a	θ i o r n a	θ i o r n + a	GIRL _a-suffix	79 12	35683
+67	Old High German	the young woman	jungfrouwa	jungfrouwa	j u n g f r o u w a	j u n g f r o u w a	j u n g + f r o u w + a	YOUNG LADY _a-suffix	76 80 12	35684
+68	Old High German	the child(1)	barn	barn	b a r n	b a r n	b a r n	CHILD	81	35685
+69	Old High German	the baby	kindilîn	kindilîn	k i n d i l iː n	k i n d i l iː n	k i n d + i l iː n	KIN _ili:n-suffix	82 83	35686
+70	Old High German	the husband	gomman	gomman	g o mː a n	g o mː a n	g o mː + a n	HUSBAND _an-suffix	84 40	35687
+71	Old High German	the wife	kwena	kwena	kw e n a	kw e n a	kw e n + a	FEMALE _a-suffix	85 12	35688
+72	Old High German	to marry	hîwen	hîwen	h iː w e n	h iː w e n	h iː w + e n	MARRY _en-suffix	86 87	35689
+73	Old High German	the wedding	brûtlouft	brûtlouft	b r uː t l o u f t	b r uː t l o u f t	b r uː t + l o u f t	BRIDE RUN2	88 89	35690
+74	Old High German	the divorce	firtrîbunga	firtrîbunga	f i r t r iː b u n g a	f i r t r iː b u n g a	f i r + t r iː b + u n g + a	_fir-prefix DRIFT _ung-suffix _a-suffix	90 91 92 12	35691
+75	Old High German	the divorce		zursahha	ts/sː u r s a xː a	ts u r s a xː a	ts u r + s a xː + a	_zur-prefix THING _a-suffix	93 94 12	
+76	Old High German	the father	fater	fater	f a t e r	f a t e r	f a t e r	FATHER	95	35692
+77	Old High German	the mother	muoter	muoter	m u o t e r	m u o t e r	m u o t e r	MOTHER	96	35693
+78	Old High German	the parents	altiron, eldiron	altiron	a l t i r o n	a l t i r o n	a l t + i r + o n	OLD _ir-suffix _on-suffix	2 97 98	35694
+79	Old High German	the married man	hî(w)o	hîwo	h iː w o	h iː w o	h iː w + o	MARRY _o-suffix	86 21	35695
+80	Old High German	the married woman	hî(w)a	hîwa	h iː w a	h iː w a	h iː w + a	MARRY _a-suffix	86 12	35696
+81	Old High German	the son	sun	sun	s u n	s u n	s u n	SON	99	35697
+82	Old High German	the daughter	tohter	tohter	t o x t e r	t o x t e r	t o x t e r	DAUGHTER	100	35698
+83	Old High German	the child(2)	kind	kind	k i n d	k i n d	k i n d	KIN	82	35699
+84	Old High German	the brother	bruoder	bruoder	b r u o d e r	b r u o d e r	b r u o d e r	BROTHER	101	35700
+85	Old High German	the sister	swester	swester	s w e s t e r	s w e s t e r	s w e s t e r	SISTER	102	35701
+86	Old High German	the twins	zwiniling	zwiniling	ts/sː w i n i l i n g	ts w i n i l i n g	ts w i n i + l i n g	TWICE _ling-suffix	103 78	35702
+87	Old High German	the grandfather	ano	ano	a n o	a n o	a n + o	GRANNY _o-suffix	104 21	35703
+88	Old High German	the grandmother	ana	ana	a n a	a n a	a n + a	GRANNY _a-suffix	104 12	35704
+89	Old High German	the grandson	enkilîn	enkilîn	e n k i l iː n	e n k i l iː n	e n + k i l iː n	GRANNY2 _kili:n-suffix	105 106	35705

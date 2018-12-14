@@ -1,0 +1,41 @@
+ID	DOCULECT	CONCEPT	VALUE	FORM	TOKENS	IPA_NOTES	SEGMENTED TOKENS	MORPHEMES	COGIDS	IDS-ID
+100	German	light, kindle, ignite	(anstecken)	anstecken	a n ʃ t ɛ k ə n		a n + ʃ t ɛ k + ə n	ON INSERT _infinitive	95 97 42	1-860-194-3
+102	German	extinguish		löschen	l œ ʃ ə n		l œ ʃ + ə n	EXTINGUISH _infinitive	98 42	
+103	German	extinguish		ausmachen	au s m a x ə n		au s + m a x + ə n	OUT MAKE _infinitive	99 100 42	
+104	German	match (noun)	Streichholz	Streichholz	ʃ t r ai x h ɔ l ts		ʃ t r ai x + h ɔ l ts	STROKE WOOD	101 57	1-870-194-1
+105	German	match (noun)	Zündholz	Zündholz	ts ʏ n t h ɔ l ts		ts ʏ n t + h ɔ l ts	KINDLE WOOD	96 57	1-870-194-3
+106	German	firewood	Brennholz	Brennholz	b r ɛ n h ɔ l ts		b r ɛ n + h ɔ l ts	BURN WOOD	93 57	1-880-194-1
+108	German	charcoal		Kohle	k oː l ə		k oː l + ə	COAL _e-inflect	102 2	
+109	German	person, human being	Mensch	Mensch	m ɛ n ʃ		m ɛ n ʃ	HUMAN	103	2-100-194-1
+110	German	man (vs. woman)	Mann	Mann	m a n		m a n	MAN	104	2-210-194-1
+111	German	woman	Frau	Frau	f r au		f r au	WOMAN	105	2-220-194-1
+113	German	male	männlich	männlich	m ɛ n l ɪ x		m ɛ n + l ɪ x	MAN2 _lich-suffix	106 107	2-230-194-1
+114	German	female	weiblich	weiblich	v ai p l ɪ x		v ai p + l ɪ x	FEMALE _lich-suffix	108 107	2-240-194-1
+115	German	boy	Junge	Junge	j ʊ ŋ ə		j ʊ ŋ + ə	YOUNG _e-m	109 110	2-250-194-1
+117	German	young man (adolescent)	Junge	Junge	j ʊ ŋ ə		j ʊ ŋ + ə	YOUNG _e-m	109 12	2-251-194-1
+118	German	young man (adolescent)	junger Mann	junger Mann	j ʊ ŋ ə r _ m a n		j ʊ ŋ + ə r _ m a n	YOUNG _er-m MAN	109 111 104	2-251-194-3
+120	German	young man (adolescent)		Teenager	t iː n eː dʒ ə r		t iː n eː dʒ ə r	TEENAGER	112	
+121	German	young man (adolescent)		Jugendlicher	t iː n eː dʒ ə r ɪ n	manually	t iː n eː dʒ ə r + ɪ n	TEENAGER _in-suffix	112 113	
+122	German	girl	Mädchen	Mädchen	m ɛː t x ə n		m ɛː t x ə n	GIRL	114	2-260-194-1
+123	German	young woman (adolescent)	Mädchen	Mädchen	m ɛː t x ə n		m ɛː t x ə n	GIRL	114	2-261-194-1
+124	German	young woman (adolescent)		junge Frau	? _ f r au	manually	j ʊ ŋ + ə _ f r au	YOUNG _e-f WOMAN	109 12 105	
+125	German	young woman (adolescent)		Teenagerin	j uː g ə n t l ɪ x ə r	manually	j uː g ə n t + l ɪ x + ə r	YOUTH _lich-suffix _er-m	116 107 111	
+126	German	young woman (adolescent)		Jugendliche	j uː g ə n t l ɪ x ə		j uː g ə n t + l ɪ x + ə	YOUTH _lich-suffix _e-f	116 107 12	
+127	German	child	Kind	Kind	k ɪ n t		k ɪ n t	CHILD	117	2-270-194-1
+128	German	infant, baby	Säugling	Säugling	z ɔy k l ɪ ŋ		z ɔy k + l ɪ ŋ	SUCK _ling-suffix	118 119	2-280-194-1
+129	German	infant, baby	Baby	Baby	b eː b iː		b eː b iː	BABY	120	2-280-194-3
+130	German	husband	Mann	Mann	m a n		m a n	MAN	104	2-310-194-1
+131	German	husband	Ehemann	Ehemann	eːə m a n	manually	eːə + m a n	MARRIAGE MAN	121 104	2-310-194-3
+132	German	husband	Gatte	Gatte	g a t ə		g a t + ə	HUSBAND _e-deriv	122 355	2-310-194-5
+134	German	wife	Frau	Frau	f r au		f r au	WOMAN	105	2-320-194-1
+135	German	wife	Ehefrau	Ehefrau	eːə f r au	manually	eːə + f r au	MARRIAGE WOMAN	121 105	2-320-194-3
+136	German	wife	Gattin	Gattin	g a t ɪ n		g a t + ɪ n	HUSBAND _in-suffix	122 113	2-320-194-5
+138	German	marry	heiraten	heiraten	h ai r aː t ə n		h ai r aː t + ə n	WEDDING _infinitive	123 42	2-330-194-1
+139	German	marriage, wedding	Heirat	Heirat	h ai r aː t		h ai r aː t	WEDDING	123	2-340-194-1
+140	German	marriage, wedding	Ehe	Ehe	eːə		eːə	MARRIAGE	121	2-340-194-3
+141	German	marriage, wedding	Hochzeit	Hochzeit	h o x ts ai t	manually	h o x ts ai t	WEDDINGB	1412	2-340-194-5
+142	German	divorce	Scheidung	Scheidung	ʃ ai d ʊ ŋ		ʃ ai d + ʊ ŋ	DIVIDE _ung-suffix	125 126	2-341-194-1
+144	German	father	Vater	Vater	f aː t ə r		f aː t ə r	FATHER	127	2-350-194-1
+145	German	mother	Mutter	Mutter	m ʊ t ə r		m ʊ t ə r	MOTHER	128	2-360-194-1
+146	German	parents	Eltern	Eltern	ə l t ə r n	manually	ɛ l t + ə r + n	OLD2 _comp _n-suffix	129 130 131	2-370-194-1
+148	German	married man	verheirateter Mann	verheirateter Mann	? _ m a n	manually	f ɛ r + h ai r aː t + ə t + ə r _ m a n	_ver-prefix WEDDING _pppw2 _er-m MAN	94 123 132 111 104	2-380-194-3
