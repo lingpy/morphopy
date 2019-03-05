@@ -5,6 +5,8 @@ from tabulate import tabulate
 import networkx as nx
 from collections import defaultdict
 
+from morphopy.boundaries import get_boundaries
+
 def check_length(wordlist, columns):
     
     types = {
@@ -95,3 +97,9 @@ def main():
         clidx = argv.index('word-families')+1
         wordlist = Wordlist(argv[clidx])
         word_families(wordlist)
+
+    if 'find-morphemes' in argv:
+        clidx = argv.index('find-morphemes')+1
+        wordlist = Wordlist(argv[clidx])
+        language = argv[clidx+1]
+        return get_boundaries(wordlist, language)
