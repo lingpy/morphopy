@@ -7,6 +7,47 @@ from collections import defaultdict
 
 from morphopy.boundaries import get_boundaries
 
+def check_cognates(wordlist):
+    
+
+
+    for idx in wordlist:
+        for c in ['cogids', 'crossids', 'rootids']:
+            wordlist[idx, c] = bt.ints(wordlist[idx, c])
+
+    etd_cogs = wordlist.get_etymdict(ref='cogids')
+    etd_crss = wordlist.get_etymdict(ref='crossids')
+    etd_root = wordlist.get_etymdict(ref='rootids')
+
+    for key, values in etd_cogs.items():
+        data = []
+        for v in values:
+            if v:
+                for idx in v:
+                    cogids = wordlist[idx, 'cogids']
+                    cogidx = cogids.index(key)
+                    crossid = wordlist[idx, 'crossids'][cogidx]
+                    data += [(idx, cogidx, crossid)]
+        crossids = [x[2] for x in data]
+        if len(set(crossids)) != 1:
+            print('# cogid {0}'.format(key))
+            table = []
+            for idx, cogidx, crossid in data:
+                table += [[
+                    idx,
+                    wordlist[idx, 'doculect'],
+                    wordlist[idx, 'concept'],
+                    bt.lists(wordlist[idx, 'tokens']),
+                    bt.lists(wordlist[idx, 'tokens']).n[cogidx],
+                    cogidx,
+                    crossid
+                    ]]
+            print(tabulate(table, headers=['id', 'doculect', 'concept', 
+                'tokens', 'morpheme', 'cogidx', 'crossid'], tablefmt='pipe'))
+            input()
+
+
+
 def check_length(wordlist, columns):
     
     types = {
@@ -97,6 +138,11 @@ def main():
         clidx = argv.index('word-families')+1
         wordlist = Wordlist(argv[clidx])
         word_families(wordlist)
+
+    if 'check-cognates' in argv:
+        clidx = argv.index('check-cognates')+1
+        wordlist = Wordlist(argv[clidx])
+        check_cognates(wordlist)
 
     if 'find-morphemes' in argv:
         clidx = argv.index('find-morphemes')+1
