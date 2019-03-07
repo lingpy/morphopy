@@ -14,7 +14,7 @@ def check_morphemes(wordlist):
     etd_mrph = wordlist.get_etymdict(ref='morphemes')
     etd_tkns = wordlist.get_etymdict(ref='tokens')
 
-    for key, values in etd_lect.items():
+    for key, values in etd_tkns.items():
         data = []
         for v in values:
             if v:
