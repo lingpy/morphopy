@@ -7,7 +7,9 @@ from collections import defaultdict
 
 from morphopy.boundaries import get_boundaries
 
-def check_morphemes(wordlist):
+def check_tokens(wordlist):
+#This checks for every morpheme in morphemes whether it corresponds to more than one morpheme in tokens and outputs those cases.
+#Currently, it should only be applied to monolingual datasets.
     for idx,  tokens, morphemes in wordlist.iter_rows('tokens','morphemes'):
          morphemes, tokens = (bt.strings(morphemes), bt.lists(tokens))
 
@@ -25,7 +27,7 @@ def check_morphemes(wordlist):
                     data += [(idx, morphemex, token)]
         tokens = [x[2] for x in data]
         if len(set(tokens)) != 1:
-            print('# doculect {0}'.format(key))
+            print('# morpheme {0}'.format(key))
             table = []
             for idx, morphemex, token in data:
                 table += [[
@@ -40,8 +42,8 @@ def check_morphemes(wordlist):
                 'tokens', 'morpheme'], tablefmt='pipe'))
             input()
 
-def check_cogids(wordlist):
-
+def check_crossids(wordlist):
+    #this checks for every cogID whether it corresponds to more than one crossID and outputs those cases.
     for idx in wordlist:
         for c in ['cogids', 'crossids', 'rootids']:
             wordlist[idx, c] = bt.ints(wordlist[idx, c])
@@ -170,15 +172,15 @@ def main():
         wordlist = Wordlist(argv[clidx])
         word_families(wordlist)
 
-    if 'check-cogids' in argv:
-        clidx = argv.index('check-cogids')+1
+    if 'check-crossids' in argv:
+        clidx = argv.index('check-crossids')+1
         wordlist = Wordlist(argv[clidx])
-        check_cogids(wordlist)
+        check_crossids(wordlist)
         
-    if 'check-morphemes' in argv:
-        clidx = argv.index('check-morphemes')+1
+    if 'check-tokens' in argv:
+        clidx = argv.index('check-tokens')+1
         wordlist = Wordlist(argv[clidx])
-        check_morphemes(wordlist)
+        checktokens(wordlist)
 
     if 'find-morphemes' in argv:
         clidx = argv.index('find-morphemes')+1
