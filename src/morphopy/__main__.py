@@ -8,9 +8,8 @@ from collections import defaultdict
 from morphopy.boundaries import get_boundaries
 
 def check_morphemes(wordlist):
-
-    for idx in wordlist:
-        morphemes, tokens = (bt.strings(morphemes), bt.lists(tokens))
+    for idx, tokens, morphemes, rootids in wordlist.iter_rows('tokens','morphemes', 'rootids'):
+         morphemes, tokens = (bt.strings(morphemes), bt.lists(tokens))
 
     etd_lect = wordlist.get_etymdict(ref='doculect')
     etd_mrph = wordlist.get_etymdict(ref='morphemes')
