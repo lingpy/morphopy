@@ -15,7 +15,9 @@ def check_tokens(wordlist):
         tokens, morphemes= (
                 bt.lists(tokens), bt.strings(morphemes)
                 )
-            
+        wordlist[idx, 'tokens'] = tokens
+	wordlist[idx, 'morphemes'] = morphemes
+	
     etd_mrph = wordlist.get_etymdict(ref='morphemes')
     etd_tkns = wordlist.get_etymdict(ref='tokens')
 	
