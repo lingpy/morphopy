@@ -14,12 +14,12 @@ def check_morphemes(wordlist):
     etd_mrph = wordlist.get_etymdict(ref='morphemes')
     etd_tkns = wordlist.get_etymdict(ref='tokens')
 
-    for key, values in etd_tkns.items():
+    for key, values in etd_mrph.items():
         data = []
         for v in values:
             if v:
                 for idx in v:
-                    morphemes = wordlist[idx, 'morpheme']
+                    morphemes = wordlist[idx, 'morphemes']
                     morphemex = morphemes.index(key)
                     token = wordlist[idx, 'tokens'][morphemex]
                     data += [(idx, morphemex, token)]
