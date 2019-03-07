@@ -11,7 +11,7 @@ def check_morphemes(wordlist):
 
     for idx in wordlist:
         for c in ['doculect', 'morphemes', 'tokens']:
-            wordlist[idx, c] = bt.lists(wordlist[idx, c])
+            wordlist[idx, c] = bt.strings(wordlist[idx, c])
 
     etd_lect = wordlist.get_etymdict(ref='doculect')
     etd_mrph = wordlist.get_etymdict(ref='morphemes')
