@@ -180,7 +180,7 @@ def main():
     if 'check-tokens' in argv:
         clidx = argv.index('check-tokens')+1
         wordlist = Wordlist(argv[clidx])
-        checktokens(wordlist)
+        check_tokens(wordlist)
 
     if 'find-morphemes' in argv:
         clidx = argv.index('find-morphemes')+1
