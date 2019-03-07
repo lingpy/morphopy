@@ -10,12 +10,15 @@ from morphopy.boundaries import get_boundaries
 def check_tokens(wordlist):
 #This checks for every morpheme in morphemes whether it corresponds to more than one morpheme in tokens and outputs those cases.
 #Currently, it should only be applied to monolingual datasets.
-    for idx,  tokens, morphemes in wordlist.iter_rows('tokens','morphemes'):
-         morphemes, tokens = (bt.strings(morphemes), bt.lists(tokens))
-
+    for idx, tokens, morphemes in wordlist.iter_rows('tokens',
+            'morphemes'):
+        tokens, morphemes= (
+                bt.lists(tokens), bt.strings(morphemes)
+                )
+            
     etd_mrph = wordlist.get_etymdict(ref='morphemes')
     etd_tkns = wordlist.get_etymdict(ref='tokens')
-
+	
     for key, values in etd_mrph.items():
         data = []
         for v in values:
@@ -36,21 +39,21 @@ def check_tokens(wordlist):
                     wordlist[idx, 'concept'],
                     bt.lists(wordlist[idx, 'tokens']),
                     bt.lists(wordlist[idx, 'tokens']).n[morphemex],
-                    morphemex
+                    morphemex,
+                    token
                     ]]
             print(tabulate(table, headers=['id', 'doculect', 'concept', 
-                'tokens', 'morpheme'], tablefmt='pipe'))
+                'tokens', 'morpheme', 'morphemex', 'token'], tablefmt='pipe'))
             input()
 
 def check_crossids(wordlist):
     #this checks for every cogID whether it corresponds to more than one crossID and outputs those cases.
     for idx in wordlist:
-        for c in ['cogids', 'crossids', 'rootids']:
+        for c in ['cogids', 'crossids']:
             wordlist[idx, c] = bt.ints(wordlist[idx, c])
 
     etd_cogs = wordlist.get_etymdict(ref='cogids')
     etd_crss = wordlist.get_etymdict(ref='crossids')
-    etd_root = wordlist.get_etymdict(ref='rootids')
 
     for key, values in etd_cogs.items():
         data = []
