@@ -7,9 +7,44 @@ from collections import defaultdict
 
 from morphopy.boundaries import get_boundaries
 
-def check_cognates(wordlist):
-    
+def check_morphemes(wordlist):
 
+    for idx in wordlist:
+        for c in ['doculect', 'morphemes', 'tokens']:
+            wordlist[idx, c] = bt.ints(wordlist[idx, c])
+
+    etd_lect = wordlist.get_etymdict(ref='doculect')
+    etd_mrph = wordlist.get_etymdict(ref='morphemes')
+    etd_tkns = wordlist.get_etymdict(ref='tokens')
+
+    for key, values in etd_lect.items():
+        data = []
+        for v in values:
+            if v:
+                for idx in v:
+                    doculect = wordlist[idx, 'doculect']
+                    doculectx = doculect.index(key)
+                    morpheme = wordlist[idx, 'morphemes'][doculectx]
+                    data += [(idx, doculectx, morpheme)]
+        morphemes = [x[2] for x in data]
+        if len(set(morphemes)) != 1:
+            print('# cogid {0}'.format(key))
+            table = []
+            for idx, doculectx, morpheme in data:
+                table += [[
+                    idx,
+                    wordlist[idx, 'doculect'],
+                    wordlist[idx, 'concept'],
+                    bt.lists(wordlist[idx, 'tokens']),
+                    bt.lists(wordlist[idx, 'tokens']).n[doculectx],
+                    doculectx,
+                    morpheme
+                    ]]
+            print(tabulate(table, headers=['id', 'doculect', 'concept', 
+                'tokens', 'morpheme'], tablefmt='pipe'))
+            input()
+
+def check_ids(wordlist):
 
     for idx in wordlist:
         for c in ['cogids', 'crossids', 'rootids']:
@@ -128,8 +163,8 @@ def word_families(wordlist, morphemes='morphemes'):
 
 def main():
 
-    if 'check-list' in argv:
-        clidx = argv.index('check-list')+1
+    if 'check-length' in argv:
+        clidx = argv.index('check-length')+1
         wordlist = Wordlist(argv[clidx])
         columns = argv[clidx+1:]
         check_length(wordlist, columns)
@@ -139,8 +174,8 @@ def main():
         wordlist = Wordlist(argv[clidx])
         word_families(wordlist)
 
-    if 'check-cognates' in argv:
-        clidx = argv.index('check-cognates')+1
+    if 'check-ids' in argv:
+        clidx = argv.index('check-ids')+1
         wordlist = Wordlist(argv[clidx])
         check_cognates(wordlist)
 
