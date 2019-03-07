@@ -8,10 +8,9 @@ from collections import defaultdict
 from morphopy.boundaries import get_boundaries
 
 def check_morphemes(wordlist):
-    for idx, tokens, morphemes, rootids in wordlist.iter_rows('tokens','morphemes', 'rootids'):
+    for idx,  tokens, morphemes in wordlist.iter_rows(tokens','morphemes'):
          morphemes, tokens = (bt.strings(morphemes), bt.lists(tokens))
 
-    etd_lect = wordlist.get_etymdict(ref='doculect')
     etd_mrph = wordlist.get_etymdict(ref='morphemes')
     etd_tkns = wordlist.get_etymdict(ref='tokens')
 
@@ -20,29 +19,28 @@ def check_morphemes(wordlist):
         for v in values:
             if v:
                 for idx in v:
-                    doculect = wordlist[idx, 'doculect']
-                    doculectx = doculect.index(key)
-                    morpheme = wordlist[idx, 'morphemes'][doculectx]
-                    data += [(idx, doculectx, morpheme)]
-        morphemes = [x[2] for x in data]
-        if len(set(morphemes)) != 1:
-            print('# cogid {0}'.format(key))
+                    morpheme = wordlist[idx, 'morpheme']
+                    morphemex = morpheme.index(key)
+                    token = wordlist[idx, 'tokens'][morphemex]
+                    data += [(idx, morphemex, token)]
+        tokens = [x[2] for x in data]
+        if len(set(tokens)) != 1:
+            print('# doculect {0}'.format(key))
             table = []
-            for idx, doculectx, morpheme in data:
+            for idx, morphemex, token in data:
                 table += [[
                     idx,
                     wordlist[idx, 'doculect'],
                     wordlist[idx, 'concept'],
                     bt.lists(wordlist[idx, 'tokens']),
-                    bt.lists(wordlist[idx, 'tokens']).n[doculectx],
-                    doculectx,
-                    morpheme
+                    bt.lists(wordlist[idx, 'tokens']).n[morphemex],
+                    morphemex
                     ]]
             print(tabulate(table, headers=['id', 'doculect', 'concept', 
                 'tokens', 'morpheme'], tablefmt='pipe'))
             input()
 
-def check_ids(wordlist):
+def check_cogids(wordlist):
 
     for idx in wordlist:
         for c in ['cogids', 'crossids', 'rootids']:
@@ -172,10 +170,10 @@ def main():
         wordlist = Wordlist(argv[clidx])
         word_families(wordlist)
 
-    if 'check-ids' in argv:
-        clidx = argv.index('check-ids')+1
+    if 'check-cogids' in argv:
+        clidx = argv.index('check-cogids')+1
         wordlist = Wordlist(argv[clidx])
-        check_cognates(wordlist)
+        check_cogids(wordlist)
         
     if 'check-morphemes' in argv:
         clidx = argv.index('check-morphemes')+1
