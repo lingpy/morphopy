@@ -19,8 +19,8 @@ def check_morphemes(wordlist):
         for v in values:
             if v:
                 for idx in v:
-                    morpheme = wordlist[idx, 'morpheme']
-                    morphemex = morpheme.index(key)
+                    morphemes = wordlist[idx, 'morpheme']
+                    morphemex = morphemes.index(key)
                     token = wordlist[idx, 'tokens'][morphemex]
                     data += [(idx, morphemex, token)]
         tokens = [x[2] for x in data]
