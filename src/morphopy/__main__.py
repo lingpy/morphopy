@@ -9,24 +9,38 @@ from morphopy.boundaries import get_boundaries
 
 
 def check_concepts(wordlist):
-    #This checks for every cogID whether it corresponds to more than one concept and outputs those cases.
-    cogids = defaultdict(list)
-    for idx, doculect, cogidxs, concs in wordlist.iter_rows(
-            'doculect', 'cogids', 'concept'):
-        for cogidx, conc in zip(
-                bt.ints(cogids),
-                bt.ints(concs)):
-            cogids[doculect, cogidx] += [(idx, str(conc))]
+    #this checks for every cogid whether it corresponds to more than one conc and outputs those cases.
+    for idx in wordlist:
+        for c in ['cogids', 'concept']:
+            wordlist[idx, c] = bt.ints(wordlist[idx, c])
 
-    for (doc, cogidx), values in sorted(cogids.items(), key=lambda x: x[0]):
-        concs = [x[1] for x in values]
-        if len(set(concs)) != 1:
-            print('# {0} / {1}'.format(doc, cogidx))
+    etd_cross = wordlist.get_etymdict(ref='cogids')
+    etd_root = wordlist.get_etymdict(ref='concept')
+
+    for key, values in etd_cross.items():
+        data = []
+        for v in values:
+            if v:
+                for idx in v:
+                    cogids = wordlist[idx, 'cogids']
+                    cogidx = cogids.index(key)
+                    conc = wordlist[idx, 'concept'][cogidx]
+                    data += [(idx, cogidx, conc)]
+        concepts = [x[2] for x in data]
+        if len(set(concepts)) != 1:
+            print('# cogid {0}'.format(key))
             table = []
-            for idx, conc in values:
-                table += [[idx, conc, ' '.join(wordlist[idx, 'concepts'])]]
-            print(tabulate(table, headers=['idx', 'concept', 'concepts'],
-                tablefmt='pipe'))
+            for idx, cogidx, conc in data:
+                table += [[
+                    idx,
+                    wordlist[idx, 'doculect'],
+                    wordlist[idx, 'conc'],
+                    bt.lists(wordlist[idx, 'tokens']),
+                    bt.lists(wordlist[idx, 'tokens']).n[cogidx],
+                    cogidx
+                    ]]
+            print(tabulate(table, headers=['id', 'doculect', 'conc', 
+                'tokens', 'morpheme', 'cogidx'], tablefmt='pipe'))
             input()
 
 def check_tokens(wordlist):
