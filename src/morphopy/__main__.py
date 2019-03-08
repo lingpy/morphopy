@@ -8,41 +8,7 @@ from collections import defaultdict
 from morphopy.boundaries import get_boundaries
 
 
-def check_concepts(wordlist):
-    #this checks for every cogid whether it corresponds to more than one conc and outputs those cases.
-    for idx in wordlist:
-        for c in ['cogids', 'concept']:
-            wordlist[idx, c] = bt.ints(wordlist[idx, c])
-
-    etd_cross = wordlist.get_etymdict(ref='cogids')
-    etd_root = wordlist.get_etymdict(ref='concept')
-
-    for key, values in etd_cross.items():
-        data = []
-        for v in values:
-            if v:
-                for idx in v:
-                    cogids = wordlist[idx, 'cogids']
-                    cogidx = cogids.index(key)
-                    conc = wordlist[idx, 'concept'][cogidx]
-                    data += [(idx, cogidx, conc)]
-        concepts = [x[2] for x in data]
-        if len(set(concepts)) != 1:
-            print('# cogid {0}'.format(key))
-            table = []
-            for idx, cogidx, conc in data:
-                table += [[
-                    idx,
-                    wordlist[idx, 'doculect'],
-                    wordlist[idx, 'conc'],
-                    bt.lists(wordlist[idx, 'tokens']),
-                    bt.lists(wordlist[idx, 'tokens']).n[cogidx],
-                    cogidx
-                    ]]
-            print(tabulate(table, headers=['id', 'doculect', 'conc', 
-                'tokens', 'morpheme', 'cogidx'], tablefmt='pipe'))
-            input()
-
+	
 def check_tokens(wordlist):
     #This checks for every morpheme in morphemes whether it corresponds to more than one morpheme in tokens and outputs those cases.
     morphemes = defaultdict(list)
@@ -243,11 +209,6 @@ def main():
         clidx = argv.index('check-tokens')+1
         wordlist = Wordlist(argv[clidx])
         check_tokens(wordlist)
-	
-    if 'check-concepts' in argv:
-        clidx = argv.index('check-concepts')+1
-        wordlist = Wordlist(argv[clidx])
-        check_concepts(wordlist)
 
     if 'find-morphemes' in argv:
         clidx = argv.index('find-morphemes')+1
