@@ -9,15 +9,13 @@ from morphopy.boundaries import get_boundaries
 
 
 def check_concepts(wordlist):
-    print('starting')
-    
-    cogids = defaultdict(list)
     #This checks for every cogID whether it corresponds to more than one concept in concepts and outputs those cases.
+    cogids = defaultdict(list)
     for idx, doculect, cogidxs, concs in wordlist.iter_rows(
-            'doculect', 'cogids', 'concept'):
+            'doculect', 'cogids', 'concepticonids'):
         for cogidx, conc in zip(
                 bt.ints(cogids),
-                concs):
+                bt.ints(concepticonids):
             cogids[doculect, cogidx] += [(idx, str(conc))]
 
     for (doc, cogidx), values in sorted(cogids.items(), key=lambda x: x[0]):
