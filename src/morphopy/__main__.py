@@ -23,7 +23,7 @@ def check_morphemes(wordlist):
             print('# {0} / {1}'.format(doc, morp))
             table = []
             for idx, crossid in values:
-                table += [[idx, crossid, ' '.join(wordlist[idx, 'crossids'])]]
+                table += [[idx, str(crossid), ' '.join(wordlist[idx, 'crossids'])]]
             print(tabulate(table, headers=['idx', 'crossid', 'crossids'],
                 tablefmt='pipe'))
             input()
