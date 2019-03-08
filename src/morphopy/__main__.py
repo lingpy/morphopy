@@ -9,6 +9,7 @@ from morphopy.boundaries import get_boundaries
 
 
 def check_concepts(wordlist):
+    print('starting')
     
     cogids = defaultdict(list)
     #This checks for every cogID whether it corresponds to more than one concept in concepts and outputs those cases.
