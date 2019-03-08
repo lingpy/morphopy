@@ -49,6 +49,42 @@ def check_tokens(wordlist):
             print(tabulate(table, headers=['idx', 'token', 'tokens'],
                 tablefmt='pipe'))
             input()
+		
+def check_rootids(wordlist):
+    #this checks for every crossID whether it corresponds to more than one rootID and outputs those cases.
+    for idx in wordlist:
+        for c in ['crossids', 'rootids']:
+            wordlist[idx, c] = bt.ints(wordlist[idx, c])
+
+    etd_cross = wordlist.get_etymdict(ref='crossids')
+    etd_root = wordlist.get_etymdict(ref='rootids')
+
+    for key, values in etd_cross.items():
+        data = []
+        for v in values:
+            if v:
+                for idx in v:
+                    crossids = wordlist[idx, 'crossids']
+                    crossidx = crossids.index(key)
+                    rootid = wordlist[idx, 'rootids'][crossidx]
+                    data += [(idx, crossidx, rootid)]
+        rootids = [x[2] for x in data]
+        if len(set(rootids)) != 1:
+            print('# crossid {0}'.format(key))
+            table = []
+            for idx, crossidx, rootid in data:
+                table += [[
+                    idx,
+                    wordlist[idx, 'doculect'],
+                    wordlist[idx, 'concept'],
+                    bt.lists(wordlist[idx, 'tokens']),
+                    bt.lists(wordlist[idx, 'tokens']).n[crossidx],
+                    crossidx,
+                    rootid
+                    ]]
+            print(tabulate(table, headers=['id', 'doculect', 'concept', 
+                'tokens', 'morpheme', 'crossidx', 'rootid'], tablefmt='pipe'))
+            input()
 
 def check_crossids(wordlist):
     #this checks for every cogID whether it corresponds to more than one crossID and outputs those cases.
@@ -179,6 +215,11 @@ def main():
         wordlist = Wordlist(argv[clidx])
         word_families(wordlist)
 
+    if 'check-rootids' in argv:
+        clidx = argv.index('check-rootids')+1
+        wordlist = Wordlist(argv[clidx])
+        check_rootids(wordlist)
+	
     if 'check-crossids' in argv:
         clidx = argv.index('check-crossids')+1
         wordlist = Wordlist(argv[clidx])
