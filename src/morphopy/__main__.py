@@ -13,7 +13,7 @@ def check_concepts(wordlist):
     cogids = defaultdict(list)
     #This checks for every cogID whether it corresponds to more than one concept in concepts and outputs those cases.
     for idx, doculect, cogidxs, concs in wordlist.iter_rows(
-            'doculect', 'cogids', 'concepts'):
+            'doculect', 'cogids', 'concept'):
         for cogidx, conc in zip(
                 bt.lists(cogidxs),
                 bt.lists(concs).n):
