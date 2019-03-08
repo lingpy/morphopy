@@ -7,7 +7,26 @@ from collections import defaultdict
 
 from morphopy.boundaries import get_boundaries
 
+def check_morphemes(wordlist):
+    #This checks for every morpheme in morphemes whether it corresponds to more than one crossIDs and outputs those cases.
+    morphemes = defaultdict(list)
+    for idx, doculect, morps, crossids in wordlist.iter_rows(
+            'doculect', 'morphemes', 'crossids'):
+        for morp, crossid in zip(
+                bt.lists(morps),
+                bt.ints(crossids).n):
+            morphemes[doculect, morp] += [(idx, str(crossid))]
 
+    for (doc, morp), values in sorted(morphemes.items(), key=lambda x: x[0]):
+        crossids = [x[1] for x in values]
+        if len(set(crossids)) != 1:
+            print('# {0} / {1}'.format(doc, morp))
+            table = []
+            for idx, crossid in values:
+                table += [[idx, crossid, ' '.join(wordlist[idx, 'crossids'])]]
+            print(tabulate(table, headers=['idx', 'crossid', 'crossids'],
+                tablefmt='pipe'))
+            input()
 	
 def check_tokens(wordlist):
     #This checks for every morpheme in morphemes whether it corresponds to more than one morpheme in tokens and outputs those cases.
