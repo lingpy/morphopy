@@ -15,8 +15,8 @@ def check_concepts(wordlist):
     for idx, doculect, cogidxs, concs in wordlist.iter_rows(
             'doculect', 'cogids', 'concept'):
         for cogidx, conc in zip(
-                bt.ints(cogidxs),
-                concs:
+                bt.ints(cogids),
+                concs):
             cogids[doculect, cogidx] += [(idx, str(conc))]
 
     for (doc, cogidx), values in sorted(cogids.items(), key=lambda x: x[0]):
