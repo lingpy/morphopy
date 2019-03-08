@@ -28,10 +28,10 @@ def check_morphemes(wordlist):
                     wordlist[idx, 'doculect'],
                     wordlist[idx, 'concept'],
                     bt.lists(wordlist[idx, 'morphemes']),
+                    morp
                     crossid
                     ]]
-            print(tabulate(table, headers=['id', 'doculect', 'concept', 
-                'morphemes', 'crossid'], tablefmt='pipe'))
+            print(tabulate(table, headers=['id', 'doculect', 'concept', 'morpheme', 'morphemes', 'crossid'], tablefmt='pipe'))
             input()
 	
 def check_tokens(wordlist):
