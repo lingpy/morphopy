@@ -7,45 +7,48 @@ from collections import defaultdict
 
 from morphopy.boundaries import get_boundaries
 
-def check_tokens(wordlist):
-#This checks for every morpheme in morphemes whether it corresponds to more than one morpheme in tokens and outputs those cases.
-#Currently, it should only be applied to monolingual datasets.
-    for idx, tokens, morphemes in wordlist.iter_rows('tokens',
-            'morphemes'):
-        tokens, morphemes= (
-                bt.lists(tokens), bt.strings(morphemes)
-                )
-        wordlist[idx, 'tokens'] = tokens
-	wordlist[idx, 'morphemes'] = morphemes
-	
-    etd_mrph = wordlist.get_etymdict(ref='morphemes')
-    etd_tkns = wordlist.get_etymdict(ref='tokens')
-	
-    for key, values in etd_mrph.items():
-        data = []
-        for v in values:
-            if v:
-                for idx in v:
-                    morphemes = wordlist[idx, 'morphemes']
-                    morphemex = morphemes.index(key)
-                    token = wordlist[idx, 'tokens'][morphemex]
-                    data += [(idx, morphemex, token)]
-        tokens = [x[2] for x in data]
-        if len(set(tokens)) != 1:
-            print('# morpheme {0}'.format(key))
+
+def check_concepts(wordlist):
+    
+    cogids = defaultdict(list)
+    #This checks for every cogID whether it corresponds to more than one concept in concepts and outputs those cases.
+    for idx, doculect, cogidxs, concs in wordlist.iter_rows(
+            'doculect', 'cogids', 'concepts'):
+        for cogidx, conc in zip(
+                bt.lists(cogidxs),
+                bt.lists(concs).n):
+            cogids[doculect, cogidx] += [(idx, str(conc))]
+
+    for (doc, cogidx), values in sorted(cogids.items(), key=lambda x: x[0]):
+        concs = [x[1] for x in values]
+        if len(set(concs)) != 1:
+            print('# {0} / {1}'.format(doc, cogidx))
             table = []
-            for idx, morphemex, token in data:
-                table += [[
-                    idx,
-                    wordlist[idx, 'doculect'],
-                    wordlist[idx, 'concept'],
-                    bt.lists(wordlist[idx, 'tokens']),
-                    bt.lists(wordlist[idx, 'tokens']).n[morphemex],
-                    morphemex,
-                    token
-                    ]]
-            print(tabulate(table, headers=['id', 'doculect', 'concept', 
-                'tokens', 'morpheme', 'morphemex', 'token'], tablefmt='pipe'))
+            for idx, conc in values:
+                table += [[idx, conc, ' '.join(wordlist[idx, 'concepts'])]]
+            print(tabulate(table, headers=['idx', 'concept', 'concepts'],
+                tablefmt='pipe'))
+            input()
+
+def check_tokens(wordlist):
+    #This checks for every morpheme in morphemes whether it corresponds to more than one morpheme in tokens and outputs those cases.
+    morphemes = defaultdict(list)
+    for idx, doculect, morps, toks in wordlist.iter_rows(
+            'doculect', 'morphemes', 'tokens'):
+        for morp, tok in zip(
+                bt.lists(morps),
+                bt.lists(toks).n):
+            morphemes[doculect, morp] += [(idx, str(tok))]
+
+    for (doc, morp), values in sorted(morphemes.items(), key=lambda x: x[0]):
+        toks = [x[1] for x in values]
+        if len(set(toks)) != 1:
+            print('# {0} / {1}'.format(doc, morp))
+            table = []
+            for idx, tok in values:
+                table += [[idx, tok, ' '.join(wordlist[idx, 'tokens'])]]
+            print(tabulate(table, headers=['idx', 'token', 'tokens'],
+                tablefmt='pipe'))
             input()
 
 def check_crossids(wordlist):
@@ -186,6 +189,11 @@ def main():
         clidx = argv.index('check-tokens')+1
         wordlist = Wordlist(argv[clidx])
         check_tokens(wordlist)
+	
+    if 'check-concepts' in argv:
+        clidx = argv.index('check-concepts')+1
+        wordlist = Wordlist(argv[clidx])
+        check_concepts(wordlist)
 
     if 'find-morphemes' in argv:
         clidx = argv.index('find-morphemes')+1
