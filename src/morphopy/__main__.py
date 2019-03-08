@@ -14,7 +14,7 @@ def check_morphemes(wordlist):
             'doculect', 'morphemes', 'crossids'):
         for morp, crossid in zip(
                 bt.lists(morps),
-                bt.ints(crossids).n):
+                bt.ints(crossids)):
             morphemes[doculect, morp] += [(idx, str(crossid))]
 
     for (doc, morp), values in sorted(morphemes.items(), key=lambda x: x[0]):
