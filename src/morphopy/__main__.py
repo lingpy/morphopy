@@ -7,6 +7,30 @@ from collections import defaultdict
 
 from morphopy.boundaries import get_boundaries
 
+def check_bla(wordlist):
+    
+    
+    morphemes = defaultdict(list)
+
+    for idx, doculect, morps, toks in wordlist.iter_rows(
+            'doculect', 'morphemes', 'tokens'):
+        for morp, tok in zip(
+                bt.lists(morps),
+                bt.lists(toks).n):
+            morphemes[doculect, morp] += [(idx, str(tok))]
+
+    for (doc, morp), values in sorted(morphemes.items(), key=lambda x: x[0]):
+        toks = [x[1] for x in values]
+        if len(set(toks)) != 1:
+            print('# {0} / {1}'.format(doc, morp))
+            table = []
+            for idx, tok in values:
+                table += [[idx, tok, ' '.join(wordlist[idx, 'tokens'])]]
+            print(tabulate(table, headers=['idx', 'token', 'tokens'],
+                tablefmt='pipe'))
+            input()
+        
+
 def check_cognates(wordlist):
     
 
@@ -143,6 +167,12 @@ def main():
         clidx = argv.index('check-cognates')+1
         wordlist = Wordlist(argv[clidx])
         check_cognates(wordlist)
+
+    if 'check-bla' in argv:
+        clidx = argv.index('check-bla')+1
+        wordlist = Wordlist(argv[clidx])
+        check_bla(wordlist)
+
 
     if 'find-morphemes' in argv:
         clidx = argv.index('find-morphemes')+1
