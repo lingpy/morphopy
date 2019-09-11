@@ -7,11 +7,36 @@ from collections import defaultdict
 
 from morphopy.boundaries import get_boundaries
 
-def check_bla(wordlist):
-    
-    
+def check_morphemes(wordlist):
+    #This checks for every morpheme in morphemes whether it corresponds to more than one crossIDs and outputs those cases.
     morphemes = defaultdict(list)
+    for idx, doculect, morps, crossids in wordlist.iter_rows(
+            'doculect', 'morphemes', 'crossids'):
+        for morp, crossid in zip(
+                bt.lists(morps),
+                bt.ints(crossids)):
+            morphemes[doculect, morp] += [(idx, str(crossid))]
 
+    for (doc, morp), values in sorted(morphemes.items(), key=lambda x: x[0]):
+        crossids = [x[1] for x in values]
+        if len(set(crossids)) != 1:
+            print('# {0} / {1}'.format(doc, morp))
+            table = []
+            for idx, crossid in values:
+                table += [[
+                    idx,
+                    wordlist[idx, 'doculect'],
+                    wordlist[idx, 'concept'],
+                    bt.lists(wordlist[idx, 'morphemes']),
+                    morp,
+                    crossid
+                    ]]
+            print(tabulate(table, headers=['id', 'doculect', 'concept', 'morpheme', 'morphemes', 'crossid'], tablefmt='pipe'))
+            input()
+	
+def check_tokens(wordlist):
+    #This checks for every morpheme in morphemes whether it corresponds to more than one morpheme in tokens and outputs those cases.
+    morphemes = defaultdict(list)
     for idx, doculect, morps, toks in wordlist.iter_rows(
             'doculect', 'morphemes', 'tokens'):
         for morp, tok in zip(
@@ -29,19 +54,56 @@ def check_bla(wordlist):
             print(tabulate(table, headers=['idx', 'token', 'tokens'],
                 tablefmt='pipe'))
             input()
-        
-
-def check_cognates(wordlist):
-    
-
-
+	
+def check_rootids(wordlist):
+    #this checks for every crossID whether it corresponds to more than one rootID and outputs those cases.
     for idx in wordlist:
-        for c in ['cogids', 'crossids', 'rootids']:
+        for c in ['crossids', 'rootids']:
+            wordlist[idx, c] = bt.ints(wordlist[idx, c])
+
+    etd_cross = wordlist.get_etymdict(ref='crossids')
+    etd_root = wordlist.get_etymdict(ref='rootids')
+
+    for key, values in etd_cross.items():
+        data = []
+        for v in values:
+            if v:
+                for idx in v:
+                    crossids = wordlist[idx, 'crossids']
+                    crossidx = crossids.index(key)
+                    try:
+                        rootid = wordlist[idx, 'rootids'][crossidx]
+                        data += [(idx, crossidx, rootid)]
+                    except IndexError:
+                        print('[!] error in rootids', idx, wordlist[idx, 'concept'],
+                                wordlist[idx, 'doculect'], crossids, wordlist[idx, 'rootids'])
+                        input()
+        rootids = [x[2] for x in data]
+        if len(set(rootids)) != 1:
+            print('# crossid {0}'.format(key))
+            table = []
+            for idx, crossidx, rootid in data:
+                table += [[
+                    idx,
+                    wordlist[idx, 'doculect'],
+                    wordlist[idx, 'concept'],
+                    bt.lists(wordlist[idx, 'tokens']),
+                    bt.lists(wordlist[idx, 'tokens']).n[crossidx],
+                    crossidx,
+                    rootid
+                    ]]
+            print(tabulate(table, headers=['id', 'doculect', 'concept', 
+                'tokens', 'morpheme', 'crossidx', 'rootid'], tablefmt='pipe'))
+            input()
+
+def check_crossids(wordlist):
+    #this checks for every cogID whether it corresponds to more than one crossID and outputs those cases.
+    for idx in wordlist:
+        for c in ['cogids', 'crossids']:
             wordlist[idx, c] = bt.ints(wordlist[idx, c])
 
     etd_cogs = wordlist.get_etymdict(ref='cogids')
     etd_crss = wordlist.get_etymdict(ref='crossids')
-    etd_root = wordlist.get_etymdict(ref='rootids')
 
     for key, values in etd_cogs.items():
         data = []
@@ -69,7 +131,6 @@ def check_cognates(wordlist):
             print(tabulate(table, headers=['id', 'doculect', 'concept', 
                 'tokens', 'morpheme', 'cogidx', 'crossid'], tablefmt='pipe'))
             input()
-
 
 
 def check_length(wordlist, columns):
@@ -152,8 +213,8 @@ def word_families(wordlist, morphemes='morphemes'):
 
 def main():
 
-    if 'check-list' in argv:
-        clidx = argv.index('check-list')+1
+    if 'check-length' in argv:
+        clidx = argv.index('check-length')+1
         wordlist = Wordlist(argv[clidx])
         columns = argv[clidx+1:]
         check_length(wordlist, columns)
@@ -163,10 +224,25 @@ def main():
         wordlist = Wordlist(argv[clidx])
         word_families(wordlist)
 
-    if 'check-cognates' in argv:
-        clidx = argv.index('check-cognates')+1
+    if 'check-rootids' in argv:
+        clidx = argv.index('check-rootids')+1
         wordlist = Wordlist(argv[clidx])
-        check_cognates(wordlist)
+        check_rootids(wordlist)
+	
+    if 'check-crossids' in argv:
+        clidx = argv.index('check-crossids')+1
+        wordlist = Wordlist(argv[clidx])
+        check_crossids(wordlist)
+        
+    if 'check-tokens' in argv:
+        clidx = argv.index('check-tokens')+1
+        wordlist = Wordlist(argv[clidx])
+        check_tokens(wordlist)
+	
+    if 'check-morphemes' in argv:
+        clidx = argv.index('check-morphemes')+1
+        wordlist = Wordlist(argv[clidx])
+        check_morphemes(wordlist)
 
     if 'check-bla' in argv:
         clidx = argv.index('check-bla')+1
