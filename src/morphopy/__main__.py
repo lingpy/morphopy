@@ -213,6 +213,9 @@ def word_families(wordlist, morphemes='morphemes'):
 
 def main():
 
+    if 'help' in argv:
+        print('USAGE: morphopy COMMAND')
+
     if 'check-length' in argv:
         clidx = argv.index('check-length')+1
         wordlist = Wordlist(argv[clidx])
@@ -238,6 +241,12 @@ def main():
         clidx = argv.index('check-tokens')+1
         wordlist = Wordlist(argv[clidx])
         check_tokens(wordlist)
+
+    if 'check-strict-cognacy' in argv:
+        clidx = argv.index('check-strict-cognacy')+1
+        wordlist = Wordlist(argv[clidx])
+        check_tokens(wordlist)
+
 	
     if 'check-morphemes' in argv:
         clidx = argv.index('check-morphemes')+1
