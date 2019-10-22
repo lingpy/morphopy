@@ -264,7 +264,7 @@ def word_family_size(wordlist, glosses='morphemes'):
     total = []
     free = []
     threshold = 0
-    for idx, morphemes in wordlist.iter_rows('morphemes'):
+    for idx, morphemes in wordlist.iter_rows(glosses):
         #calculate the number of rows
         rows += 1
         #a threshold can be set to only check the first x rows
@@ -281,7 +281,21 @@ def word_family_size(wordlist, glosses='morphemes'):
             ('Unique Morphemes per Row', len(set(total)) / rows), 
             ('Free Morphemes', len(set(free))),
             ('Unique Free Morphemes per row', len(set(free)) / rows)]
-    print(tabulate(table))
+    print(tabulate(table, tablefmt='pipe'))
+
+
+def rank_morphemes(wordlist, glosses='morphemes'):
+
+    rows = 0
+    free = defaultdict(int)
+    for idx, morphemes in wordlist.iter_rows(glosses):
+        #create a list of all glosses
+        for morpheme in morphemes:
+            free[morpheme] += 1
+
+    table = sorted(free.items(), key=lambda x: x[1], reverse=True)
+    print(tabulate(table, tablefmt='pipe'))
+
 
 
 def main():
@@ -290,6 +304,12 @@ def main():
         cidx = argv.index('word-family-size')+1
         wordlist = Wordlist(argv[cidx])
         word_family_size(wordlist)
+
+    if 'rank-morphemes' in argv:
+        cidx = argv.index('rank-morphemes')+1
+        wordlist = Wordlist(argv[cidx])
+        rank_morphemes(wordlist)
+
 
 
     if 'help' in argv:
