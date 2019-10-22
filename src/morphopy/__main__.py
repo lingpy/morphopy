@@ -258,7 +258,39 @@ def boundaries_from_list(wordlist, blist, segments='tokens',
     wordlist.add_entries(glosses, M, lambda x: x)
 
 
+def word_family_size(wordlist, glosses='morphemes'):
+
+    rows = 0
+    total = []
+    free = []
+    threshold = 0
+    for idx, morphemes in wordlist.iter_rows('morphemes'):
+        #calculate the number of rows
+        rows += 1
+        #a threshold can be set to only check the first x rows
+        if threshold != 0 and rows >= threshold:
+            break
+        #create a list of all glosses
+        for morpheme in morphemes:
+            total.append(morpheme)
+        #create a list of all glosses that are not grammatical morphemes
+            if morpheme.startswith("_") == False:
+                free.append(morpheme)
+    #print the absolute and relative amount of types in the lists
+    table = [('Number of Morphemes', len(set(total))), 
+            ('Unique Morphemes per Row', len(set(total)) / rows), 
+            ('Free Morphemes', len(set(free))),
+            ('Unique Free Morphemes per row', len(set(free)) / rows)]
+    print(tabulate(table))
+
+
 def main():
+
+    if 'word-family-size' in argv:
+        cidx = argv.index('word-family-size')+1
+        wordlist = Wordlist(argv[cidx])
+        word_family_size(wordlist)
+
 
     if 'help' in argv:
         print('USAGE: morphopy COMMAND')
