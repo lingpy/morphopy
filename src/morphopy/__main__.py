@@ -4,8 +4,8 @@ from lingpy import basictypes as bt
 from tabulate import tabulate
 import networkx as nx
 from collections import defaultdict
-
 from morphopy.boundaries import get_boundaries
+from clldutils.misc import slug
 
 def check_morphemes(wordlist):
     #This checks for every morpheme in morphemes whether it corresponds to more than one crossIDs and outputs those cases.
@@ -33,7 +33,8 @@ def check_morphemes(wordlist):
                     ]]
             print(tabulate(table, headers=['id', 'doculect', 'concept', 'morpheme', 'morphemes', 'crossid'], tablefmt='pipe'))
             input()
-	
+
+
 def check_tokens(wordlist):
     #This checks for every morpheme in morphemes whether it corresponds to more than one morpheme in tokens and outputs those cases.
     morphemes = defaultdict(list)
@@ -54,7 +55,8 @@ def check_tokens(wordlist):
             print(tabulate(table, headers=['idx', 'token', 'tokens'],
                 tablefmt='pipe'))
             input()
-	
+
+
 def check_rootids(wordlist):
     #this checks for every crossID whether it corresponds to more than one rootID and outputs those cases.
     for idx in wordlist:
@@ -96,6 +98,7 @@ def check_rootids(wordlist):
                 'tokens', 'morpheme', 'crossidx', 'rootid'], tablefmt='pipe'))
             input()
 
+
 def check_crossids(wordlist):
     #this checks for every cogID whether it corresponds to more than one crossID and outputs those cases.
     for idx in wordlist:
@@ -131,6 +134,7 @@ def check_crossids(wordlist):
             print(tabulate(table, headers=['id', 'doculect', 'concept', 
                 'tokens', 'morpheme', 'cogidx', 'crossid'], tablefmt='pipe'))
             input()
+
 
 
 def check_length(wordlist, columns):
@@ -175,6 +179,7 @@ def check_length(wordlist, columns):
             print('')
             #input('press ENTER to continue\n')
 
+
 def word_families(wordlist, morphemes='morphemes'):
     
     wf = defaultdict(list)
@@ -209,12 +214,62 @@ def word_families(wordlist, morphemes='morphemes'):
             'RootConcept', 'Tokens', 
             'Morphemes'], tablefmt='pipe'))
         print('')
+
+
+def boundaries_from_list(wordlist, blist, segments='tokens',
+        glosses='morphemes'):
+
+    morphemes = {k: v for k, v in blist}
+    counter = defaultdict(list)
     
+    assert glosses not in wordlist.columns
+    
+    M = {}
+    for idx, concept, tokens in wordlist.iter_rows('concept', segments):
+        tokens = '^ '+str(tokens)+' $'
+        for b in morphemes:
+            if b in tokens:
+                if b.startswith('^'):
+                    tokens = tokens.replace(b, b+' +')
+                elif b.endswith('$'):
+                    tokens = tokens.replace(b, '+ '+b)
+                else:
+                    tokens = tokens.replace(b, '+ '+b+' +')
+        wordlist[idx, segments] = basictypes.lists(tokens)
+    
+    visited = {}
+    for idx, concept, tokens in wordlist.iter_rows('concept', segments):
+        base_string = slug(concept, lowercase=False)
+        if base_string in visited:
+            new_string = base_string + '-'+str(len(visited[base_string]))
+            visited[base_string] += [new_string]
+        else:
+            new_string = base_string
+            visited[base_string] = [new_string]
+
+        mstring = []
+        for m in tokens.n:
+            if str(m) not in morphemes:
+                morphemes[str(m)] = new_string
+
+            mstring += [morphemes[str(m)]]
+        M[idx] = ' '.join(mstring)
+        wordlist[idx, 'tokens'] = basictypes.lists(str(tokens)[2:-2])
+    wordlist.add_entries(glosses, M, lambda x: x)
+
 
 def main():
 
     if 'help' in argv:
         print('USAGE: morphopy COMMAND')
+
+    if 'split-from-list' in argv:
+        cidx = argv.index('split-from-list')+1
+        wordlist = Wordlist(argv[cidx])
+        blist = csv2list(argv[cidx+1], strip_lines=False)
+        boundaries_from_list(wordlist, blist)
+        wordlist.output('tsv', filename=argv[cidx][:-4]+'-boundaries', ignore='all', prettify=False)
+
 
     if 'check-length' in argv:
         clidx = argv.index('check-length')+1

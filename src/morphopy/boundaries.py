@@ -34,6 +34,7 @@ def get_init_enit(tokens, debug=False):
         input()
     return init, enit
 
+
 def get_boundaries(wordlist, language, segments='tokens', threshold=0):
     
     inits = defaultdict(int)
