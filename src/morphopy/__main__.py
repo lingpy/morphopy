@@ -239,16 +239,17 @@ def boundaries_from_list(wordlist, blist, segments='tokens',
     
     visited = {}
     for idx, concept, tokens in wordlist.iter_rows('concept', segments):
-        base_string = slug(concept, lowercase=False)
-        if base_string in visited:
-            new_string = base_string + '-'+str(len(visited[base_string]))
-            visited[base_string] += [new_string]
-        else:
-            new_string = base_string
-            visited[base_string] = [new_string]
 
         mstring = []
         for m in tokens.n:
+            base_string = slug(concept, lowercase=False)
+            if base_string in visited:
+                new_string = base_string + '-'+str(len(visited[base_string]))
+                visited[base_string] += [new_string]
+            else:
+                new_string = base_string
+                visited[base_string] = [new_string]
+
             if str(m) not in morphemes:
                 morphemes[str(m)] = new_string
 
@@ -321,6 +322,13 @@ def main():
         blist = csv2list(argv[cidx+1], strip_lines=False)
         boundaries_from_list(wordlist, blist)
         wordlist.output('tsv', filename=argv[cidx][:-4]+'-boundaries', ignore='all', prettify=False)
+
+    if 'add-morphemes' in argv:
+        cidx = argv.index('add-morphemes')+1
+        wordlist = Wordlist(argv[cidx])
+        blist = []
+        boundaries_from_list(wordlist, blist)
+        wordlist.output('tsv', filename=argv[cidx][:-4]+'-morphemes', ignore='all', prettify=False)
 
 
     if 'check-length' in argv:
